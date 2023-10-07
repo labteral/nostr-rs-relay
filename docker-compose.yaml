@@ -1,0 +1,21 @@
+version: '3'
+
+x-logging: &default
+  options:
+    max-size: '50m'
+    max-file: '1'
+  driver: json-file
+
+services:
+  nostr-rs-relay:
+    # image: scsibug/nostr-rs-relay
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./config.toml:/usr/src/app/config.toml:ro
+      - ./data:/usr/src/app/db
+    ports:
+      - 7000:8080
+    logging: *default
+    restart: always
